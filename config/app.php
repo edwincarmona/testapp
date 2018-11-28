@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Mexico_City',//'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -167,6 +167,7 @@ return [
         */
 
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Application Service Providers...
