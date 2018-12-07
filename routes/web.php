@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'ProductController@Index'
     ])->middleware('permission:lector-productos|autor-productos|editor-productos|gestor-productos');
 
+
     Route::get('products/create', [
         'as' => 'products.create',
         'uses' => 'ProductController@Create'
@@ -92,11 +93,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('clients/{client}', [
         'as' => 'clients.destroy',
         'uses' => 'ClientController@Destroy'
-    ])->middleware('gestor-clientes');
+    ])->middleware('permission:gestor-clientes');
     
     Route::group(['middleware' => ['permission:catalogos-sistema']], function () {
         Route::resource('units', 'UnitController');
         Route::resource('segments', 'SegmentController');
     });
+    
+    Route::resource('documents', 'DocumentController');
+    
+    Route::resource('documentRows', 'DocumentRowController');
 });
 

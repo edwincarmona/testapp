@@ -63,8 +63,8 @@ class ProductController extends AppBaseController
     {
         $input = $request->all();
 
-        $input['created_by_id'] = 2;
-        $input['updated_by_id'] = 2;
+        $input['created_by_id'] = auth()->user()->id;
+        $input['updated_by_id'] = auth()->user()->id;
         $input['is_deleted'] = 0;
 
         $product = $this->productRepository->create($input);
@@ -159,7 +159,9 @@ class ProductController extends AppBaseController
             }
         }
 
-        $product = $this->productRepository->update($request->all(), $id);
+        $input = $request->all();
+        $input['updated_by_id'] = auth()->user()->id;
+        $product = $this->productRepository->update($input, $id);
 
         $product->unlock();
 
@@ -197,9 +199,10 @@ class ProductController extends AppBaseController
         }
 
         $product->is_deleted = 1;
+        $product->updated_by_id = auth()->user()->id;
 
         // $this->productRepository->delete($id);
-        $product = $this->productRepository->update($product, $id);
+        $product = $this->productRepository->update($product->toArray(), $id);
 
         Flash::success('Product deleted successfully.')->important();
 

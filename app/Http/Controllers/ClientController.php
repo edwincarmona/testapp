@@ -63,8 +63,8 @@ class ClientController extends AppBaseController
     {
         $input = $request->all();
 
-        $input['created_by_id'] = 2;
-        $input['updated_by_id'] = 2;
+        $input['created_by_id'] = auth()->user()->id;
+        $input['updated_by_id'] = auth()->user()->id;
         $input['is_deleted'] = 0;
 
         $client = $this->clientRepository->create($input);
@@ -159,7 +159,9 @@ class ClientController extends AppBaseController
             }
         }
 
-        $client = $this->clientRepository->update($request->all(), $id);
+        $input = $request->all();
+        $input['updated_by_id'] = auth()->user()->id;
+        $client = $this->clientRepository->update($input, $id);
 
         $client->unlock();
 
@@ -197,7 +199,9 @@ class ClientController extends AppBaseController
         }
 
         $client->is_deleted = 1;
-        $client = $this->clientRepository->update($client, $id);
+        $client->updated_by_id = auth()->user()->id;
+
+        $client = $this->clientRepository->update($client->toArray(), $id);
         // $this->clientRepository->delete($id);
 
         $client->unlock();

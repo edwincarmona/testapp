@@ -7,9 +7,18 @@
 @section('principal_content')
     @include('flash::message')
 
-    <h1 class="pull-right">
+    <div>
+        <div class="pull-left">
+            <a href="clients?search=is_deleted:0" class="btn btn-success">Actives</a>
+            <a href="clients?search=is_deleted:1" class="btn btn-danger">Deleted</a>
+            <a href="clients" class="btn btn-default">All</a>
+        </div>
+        <div class="pull-right">
             <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('clients.create') !!}">Add New</a>
-    </h1>
+        </div>
+    </div>
+    <br/>
+    <br/>
 
     @include('clients.table')
 @endsection
